@@ -7,6 +7,7 @@ import time
 from collections import defaultdict
 from const import storage_filename, madrid_elecciones_2019, datetime_format
 
+
 def extract(e, keys, get_text=True, to_num=True):
     new_e = e
     if isinstance(keys, str):
@@ -47,16 +48,19 @@ def get_election_state(url):
     return elections_state
 
 
-def add_2019(out_filename=storage_filename):
+def add_baseline(out_filename=storage_filename, baseline_year="2019", baseline_url=madrid_elecciones_2019):
     '''This function adds 2019 to the state iff storage JSON file has not been created'''
+    state = None
     if os.path.exists(out_filename):
-        print("state file already exists, doing nothing")
-        return
-    state = {}
-    state_2019 = get_election_state(madrid_elecciones_2019)
-    state["2019"] = [state_2019]
-    with open(out_filename, "w") as fd:
-        json.dump(state, fd)
+        print("state file already exists, loading")
+        with open(out_filename) as fd:
+            state = json.load(fd)
+    state = state or {}
+    if baseline_year not in state:
+        baseline_state = get_election_state(baseline_url)
+        state[baseline_year] = [baseline_state]
+        with open(out_filename, "w") as fd:
+            json.dump(state, fd)
 
 
 def add_state(url, year, state_path=storage_filename, check_state=True):
@@ -89,7 +93,20 @@ def add_state(url, year, state_path=storage_filename, check_state=True):
         json.dump(state_history, fd)
 
 
+def initialise_document(state_path, url, year, baseline_url, baseline_year):
+    if os.path.exists(state_path):
+       print("Can't initialise state history document, as it's already initialised")
+       return
+    state_history = {}
+    # add baseline
+    state_history[baseline_year] = [get_election_state(baseline_url)]
+    # add initial snapshot of current elections
+    state_history[year] = [get_election_state(url)]
+    with open(state_path) as fd:
+        json.dump(state_history, fd)
+
+
 if __name__ == '__main__':
-    add_2019("fake.json")
-    add_2019()
+    add_baseline("fake.json")
+    add_baseline()
     print("playing in pycharm")

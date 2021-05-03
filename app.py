@@ -9,14 +9,15 @@ from collections import defaultdict
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+state_path = "fake.json"
 
-def convert_to_pd(state_history:dict):
+def convert_to_pd(state_history:dict, election_year="2021", baseline_year="2019"):
     data = defaultdict(list)
     # get political parties baseline
     baseline = {}
-    for pparty, baseline_results in state_history["2019"][0]["results"].items():
+    for pparty, baseline_results in state_history[baseline_year][0]["results"].items():
         baseline[pparty] = baseline_results["seats"]
-    for state in state_history["2021"]:
+    for state in state_history[election_year]:
         data["perc_counted_votes"].append(state["perc_counted_votes"])
         data["time"].append(state["retrieval_time"])
         for pparty, individual_results in state["results"].items():
@@ -59,14 +60,14 @@ def get_df_by_blocks(path):
 
 
 app.layout = html.Div(children=[
-    html.H1(children='Hello Dash'),
+    html.H1(children='Madrid Elections 2021'),
 
     html.Div(children='''
-        Dash: A web application framework for Python.
+        Minimal Dash application to follow the Election Results
     '''),
 
     dcc.Graph(
-        id='example-graph'
+        id='graph-pparties'
     ),
     dcc.Graph(
         id='graph-blocks'
@@ -80,11 +81,11 @@ app.layout = html.Div(children=[
 
 
 @app.callback(
-    Output('example-graph', 'figure'),
+    Output('graph-pparties', 'figure'),
     Input('interval-component', 'n_intervals')
 )
 def update_graph(n):
-    df = get_df("fake.json")
+    df = get_df(state_path)
     fig = px.line(df, x="time", y="seats", color='pparty', hover_name="pparty",
                   hover_data={"baseline": True, "pparty": False, "time": False})
     fig.update_layout(hovermode="x")
@@ -96,7 +97,7 @@ def update_graph(n):
     Input('interval-component', 'n_intervals')
 )
 def update_graph(n):
-    df = get_df_by_blocks("fake.json")
+    df = get_df_by_blocks(state_path)
     fig = px.line(df, x="time", y="seats", color='blocks', hover_name="blocks",
                   hover_data={"baseline": True, "blocks": False, "time": False})
     fig.update_layout(hovermode="x")
@@ -104,6 +105,6 @@ def update_graph(n):
 
 if __name__ == '__main__':
     # df = get_df("fake.json")
-    df = get_df_by_blocks("fake.json")
+    # df = get_df_by_blocks("fake.json")
     print("check in pycharm")
     app.run_server(debug=True)
