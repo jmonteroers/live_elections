@@ -1,0 +1,87 @@
+{
+  "2019": {
+    "retrieval_time": "02/05/2021 20:37:33",
+    "total_seats": 132,
+    "perc_counted_votes_perc": 100,
+    "turnout": 64.27,
+    "perc_null_ballots": 0.42,
+    "perc_blank_ballots": 0.46,
+    "results": {
+      "PSOE": {
+        "ballots": 884218,
+        "perc_ballots": 27.31,
+        "seats": 37
+      },
+      "PP": {
+        "ballots": 719852,
+        "perc_ballots": 22.23,
+        "seats": 30
+      },
+      "Cs": {
+        "ballots": 629940,
+        "perc_ballots": 19.46,
+        "seats": 26
+      },
+      "MÁS MADRID": {
+        "ballots": 475672,
+        "perc_ballots": 14.69,
+        "seats": 20
+      },
+      "VOX": {
+        "ballots": 287667,
+        "perc_ballots": 8.88,
+        "seats": 12
+      },
+      "PODEMOS-IU": {
+        "ballots": 181231,
+        "perc_ballots": 5.6,
+        "seats": 7
+      },
+      "PACMA": {
+        "ballots": 24446,
+        "perc_ballots": 0.76,
+        "seats": 0
+      },
+      "UPYD": {
+        "ballots": 4057,
+        "perc_ballots": 0.13,
+        "seats": 0
+      },
+      "PUM+J": {
+        "ballots": 3178,
+        "perc_ballots": 0.1,
+        "seats": 0
+      },
+      "ULEG": {
+        "ballots": 2984,
+        "perc_ballots": 0.09,
+        "seats": 0
+      },
+      "PCTE": {
+        "ballots": 2610,
+        "perc_ballots": 0.08,
+        "seats": 0
+      },
+      "FE de las JONS": {
+        "ballots": 2217,
+        "perc_ballots": 0.07,
+        "seats": 0
+      },
+      "PCAS-TC": {
+        "ballots": 1794,
+        "perc_ballots": 0.06,
+        "seats": 0
+      },
+      "PH": {
+        "ballots": 1727,
+        "perc_ballots": 0.05,
+        "seats": 0
+      },
+      "P-LIB": {
+        "ballots": 1246,
+        "perc_ballots": 0.04,
+        "seats": 0
+      }
+    }
+  }
+}
