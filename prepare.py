@@ -24,7 +24,11 @@ def extract(e, keys, get_text=True, to_num=True):
 
 def get_election_state(url):
     elections_state = {}
-    text = requests.get(url).text
+    response = requests.get(url)
+    if response.status_code != 200:
+        print("Couldn't access elPais website")
+        return
+    text = response.text
     root = ET.fromstring(text)
 
     # general info
@@ -75,6 +79,8 @@ def add_state(url, year, state_path=storage_filename, check_state=True):
         print("state not found, assuming which is empty")
         state_history = defaultdict(list)
     new_state = get_election_state(url)
+    if not new_state:
+        return
     if check_state:
         max_perc_counted_votes = (
             max([state["perc_counted_votes"] for state in state_history[year]]) if state_history.get(year)
